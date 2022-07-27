@@ -14,12 +14,10 @@ const io = new Server(server, {
 server.listen(3001, () => {
   console.log("server up and running");
 });
+//when we establish a connection/'socket' , we can then use the socket variable to receive and transmit various events
 io.on("connection", (socket) => {
   console.log(socket.id);
   socket.on("message", (data) => {
     console.log(data.message);
   });
 });
-// io.on("message", (data) => {
-//   console.log(data.message);
-// });
