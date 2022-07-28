@@ -1,23 +1,29 @@
 const express = require("express");
 const app = express();
 const http = require("http");
+const server = http.createServer(app);
 const { Server } = require("socket.io");
 const cors = require("cors");
+
 app.use(cors());
-const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
+
 server.listen(3001, () => {
-  console.log("server up and running");
+  console.log("running the backend G");
 });
-//when we establish a connection/'socket' , we can then use the socket variable to receive and transmit various events
+
 io.on("connection", (socket) => {
-  console.log(socket.id);
-  socket.on("message", (data) => {
-    console.log(data.message);
+  console.log(`${socket.id} connected`);
+  socket.on("join_room", ({ data }) => {
+    console.log(`username is ${data.username} and roomId is ${data.roomId}`);
+  });
+  socket.on("disconnect", () => {
+    console.log(`${socket.id} disconnected`);
   });
 });
