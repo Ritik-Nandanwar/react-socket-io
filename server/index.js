@@ -2,11 +2,9 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
-const { Server } = require("socket.io");
 const cors = require("cors");
-
 app.use(cors());
-
+const { Server } = require("socket.io");
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
@@ -15,15 +13,15 @@ const io = new Server(server, {
 });
 
 server.listen(3001, () => {
-  console.log("running the backend G");
+  console.log("Server up and running");
 });
 
 io.on("connection", (socket) => {
   console.log(`${socket.id} connected`);
-  socket.on("join_room", ({ data }) => {
-    console.log(`username is ${data.username} and roomId is ${data.roomId}`);
+  socket.on("joinRoom", ({ username, roomID }) => {
+    socket.join(roomID);
   });
-  socket.on("disconnect", () => {
-    console.log(`${socket.id} disconnected`);
+  socket.on("sendMessage", (data) => {
+    socket.to(data.roomID).emit("receiveMsg", data);
   });
 });
