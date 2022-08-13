@@ -15,20 +15,6 @@ function App() {
     socket.emit("joinRoom", data);
     setShowChat(true);
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const data = {
-      username,
-      msg,
-      roomID,
-    };
-    await socket.emit("sendMessage", data);
-  };
-  useEffect(() => {
-    socket.on("receiveMsg", (data) => {
-      console.log(data);
-    });
-  }, [socket]);
 
   return (
     <>
@@ -56,25 +42,11 @@ function App() {
           >
             PRESS
           </button>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Enter message"
-              className="mt-20 px-3 py-3 m-2 font-bold bg-fuchsia-500"
-              onChange={(e) => {
-                setMsg(e.target.value);
-              }}
-            />
-            <button
-              type="submit"
-              className="m-2 py-3 px-4 bg-green-400 capitalize font-bold"
-            >
-              Send
-            </button>
-          </form>
         </div>
       ) : (
-        <Chat />
+        <div className="w-[500px] mx-auto max-h-[200px]">
+          <Chat username={username} roomID={roomID} socket={socket} />
+        </div>
       )}
     </>
   );

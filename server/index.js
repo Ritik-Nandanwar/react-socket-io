@@ -12,16 +12,20 @@ const io = new Server(server, {
   },
 });
 
-server.listen(3001, () => {
-  console.log("Server up and running");
-});
-
 io.on("connection", (socket) => {
   console.log(`${socket.id} connected`);
   socket.on("joinRoom", ({ username, roomID }) => {
     socket.join(roomID);
   });
   socket.on("sendMessage", (data) => {
+    console.log(data);
     socket.to(data.roomID).emit("receiveMsg", data);
   });
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+});
+
+server.listen(3001, () => {
+  console.log("Server up and running");
 });

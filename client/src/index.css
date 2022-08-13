@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 * {
-  background: #3f3f3f;
+  /* background: #444444; */
   color: white;
+}
+.my {
+  /* width: 500px; */
+}
+.my {
+  float: right;
+}
+.other p {
+  float: left;
+  background: rgb(113, 94, 0);
 }
